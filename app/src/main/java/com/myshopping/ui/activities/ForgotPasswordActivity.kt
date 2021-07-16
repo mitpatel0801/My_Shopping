@@ -1,9 +1,9 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.myshoppal.R
+import com.myshopping.R
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 

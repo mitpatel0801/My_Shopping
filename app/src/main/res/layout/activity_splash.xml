@@ -7,7 +7,7 @@
     android:background="@drawable/img_splash_background"
     tools:context=".ui.activities.SplashActivity">
 
-    <com.myshoppal.utils.customWidgets.MSPTextViewBold
+    <com.myshopping.utils.customWidgets.MSPTextViewBold
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

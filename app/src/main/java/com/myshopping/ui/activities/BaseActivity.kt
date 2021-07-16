@@ -1,10 +1,10 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.myshoppal.R
+import com.myshopping.R
 import kotlinx.android.synthetic.main.dialog_progress.*
 
 

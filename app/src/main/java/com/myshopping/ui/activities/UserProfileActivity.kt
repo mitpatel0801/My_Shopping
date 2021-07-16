@@ -1,4 +1,4 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -11,12 +11,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.myshoppal.R
-import com.myshoppal.firestore.FirestoreClass
-import com.myshoppal.models.User
-import com.myshoppal.utils.Constants
-import com.myshoppal.utils.GlideLoader
-import com.myshoppal.utils.UtilsFunctions
+import com.myshopping.R
+import com.myshopping.firestore.FirestoreClass
+import com.myshopping.models.User
+import com.myshopping.utils.Constants
+import com.myshopping.utils.GlideLoader
+import com.myshopping.utils.UtilsFunctions
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.io.IOException
 

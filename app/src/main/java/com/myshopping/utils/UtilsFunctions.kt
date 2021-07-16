@@ -1,4 +1,4 @@
-package com.myshoppal.utils
+package com.myshopping.utils
 
 import android.app.Activity
 import android.content.Intent

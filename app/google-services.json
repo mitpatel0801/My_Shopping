@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:921924471602:android:3588c9ee7c2b8904e3252b",
+        "mobilesdk_app_id": "1:921924471602:android:5d442db07c29ea7ee3252b",
         "android_client_info": {
-          "package_name": "com.myshoppal"
+          "package_name": "com.myshopping"
         }
       },
       "oauth_client": [
         {
-          "client_id": "921924471602-5gibkird7cl74edrl77a88rj50tnem6f.apps.googleusercontent.com",
+          "client_id": "921924471602-e6192a9i28fsi0qql6fmkil7tij315uc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.myshoppal",
+            "package_name": "com.myshopping",
             "certificate_hash": "2de134868a5bf19242cf14596aefa87c730b42fe"
           }
         },

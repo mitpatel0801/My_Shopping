@@ -1,4 +1,4 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -7,9 +7,9 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.myshoppal.R
-import com.myshoppal.firestore.FirestoreClass
-import com.myshoppal.models.User
+import com.myshopping.R
+import com.myshopping.firestore.FirestoreClass
+import com.myshopping.models.User
 import kotlinx.android.synthetic.main.activity_register.*
 
 @Suppress("DEPRECATION")

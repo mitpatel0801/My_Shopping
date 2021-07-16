@@ -1,10 +1,10 @@
-package com.myshoppal.utils
+package com.myshopping.utils
 
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.myshoppal.R
+import com.myshopping.R
 import java.io.IOException
 
 

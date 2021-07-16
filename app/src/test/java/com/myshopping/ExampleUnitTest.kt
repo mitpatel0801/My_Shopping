@@ -1,4 +1,4 @@
-package com.myshoppal
+package com.myshopping
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

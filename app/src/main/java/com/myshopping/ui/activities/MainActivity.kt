@@ -1,8 +1,8 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.myshoppal.R
+import com.myshopping.R
 
 class MainActivity : AppCompatActivity() {
 

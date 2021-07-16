@@ -1,17 +1,18 @@
-package com.myshoppal.utils.customWidgets
+package com.myshopping.utils.customWidgets
 
 import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatRadioButton
+import androidx.appcompat.widget.AppCompatTextView
 
 
-class MSPRadioButton(context: Context, attrs: AttributeSet) :
-    AppCompatRadioButton(context, attrs) {
+class MSPTextViewBold(context: Context, attrs: AttributeSet) : AppCompatTextView(context, attrs) {
+
 
     init {
         applyFont()
     }
+
 
     private fun applyFont() {
         val typeface: Typeface =

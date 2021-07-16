@@ -1,4 +1,4 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
-import com.myshoppal.R
-import com.myshoppal.firestore.FirestoreClass
-import com.myshoppal.models.User
-import com.myshoppal.utils.Constants
+import com.myshopping.R
+import com.myshopping.firestore.FirestoreClass
+import com.myshopping.models.User
+import com.myshopping.utils.Constants
 import kotlinx.android.synthetic.main.activity_login.*
 
 

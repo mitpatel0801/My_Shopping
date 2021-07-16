@@ -1,4 +1,4 @@
-package com.myshoppal.firestore
+package com.myshopping.firestore
 
 import android.app.Activity
 import android.content.Context
@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.myshoppal.models.User
-import com.myshoppal.ui.activities.LoginActivity
-import com.myshoppal.ui.activities.RegisterActivity
-import com.myshoppal.ui.activities.UserProfileActivity
-import com.myshoppal.utils.Constants
+import com.myshopping.models.User
+import com.myshopping.ui.activities.LoginActivity
+import com.myshopping.ui.activities.RegisterActivity
+import com.myshopping.ui.activities.UserProfileActivity
+import com.myshopping.utils.Constants
 
 
 class FirestoreClass {

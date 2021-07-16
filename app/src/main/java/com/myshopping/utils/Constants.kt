@@ -1,4 +1,4 @@
-package com.myshoppal.utils
+package com.myshopping.utils
 
 
 object Constants {

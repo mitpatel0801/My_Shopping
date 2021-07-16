@@ -1,4 +1,4 @@
-package com.myshoppal.utils.customWidgets
+package com.myshopping.utils.customWidgets
 
 import android.content.Context
 import android.graphics.Typeface

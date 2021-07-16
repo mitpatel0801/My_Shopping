@@ -1,11 +1,11 @@
-package com.myshoppal.ui.activities
+package com.myshopping.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.myshoppal.R
+import com.myshopping.R
 import kotlinx.android.synthetic.main.activity_splash.*
 
 @Suppress("DEPRECATION")
