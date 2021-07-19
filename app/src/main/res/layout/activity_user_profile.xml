@@ -206,7 +206,7 @@
             </RadioGroup>
 
             <com.myshopping.utils.customWidgets.MSPButton
-                android:id="@+id/btn_save"
+                android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

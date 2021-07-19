@@ -3,14 +3,17 @@ package com.myshopping.firestore
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.myshopping.models.User
 import com.myshopping.ui.activities.LoginActivity
 import com.myshopping.ui.activities.RegisterActivity
 import com.myshopping.ui.activities.UserProfileActivity
 import com.myshopping.utils.Constants
+import com.myshopping.utils.UtilsFunctions
 
 
 class FirestoreClass {
@@ -103,5 +106,42 @@ class FirestoreClass {
                 }
 
             }
+    }
+
+    fun uploadImageToCloudStorage(activity: Activity, photoUri: Uri) {
+        val sRef = FirebaseStorage.getInstance().reference.child(
+            "${Constants.USER_PROFILE_IMAGE}${System.currentTimeMillis()}${
+                UtilsFunctions.getFileExtensions(
+                    activity,
+                    photoUri
+                )
+            }"
+        )
+
+        sRef.putFile(photoUri).addOnSuccessListener { taskSnapShot ->
+
+            taskSnapShot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
+                when (activity) {
+                    is UserProfileActivity -> {
+                        activity.imageUploadSuccess(uri.toString())
+                    }
+                }
+            }
+                .addOnFailureListener { e ->
+                    when (activity) {
+                        is UserProfileActivity -> {
+                            activity.imageUploadFail(e)
+                        }
+                    }
+                }
+
+
+        }.addOnFailureListener { e ->
+            when (activity) {
+                is UserProfileActivity -> {
+
+                }
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -24,6 +25,8 @@ import java.io.IOException
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var mUserDetails: User
+    private var mPhotoUri: Uri? = null
+    private var mImageUrlLink: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +47,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
 
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
-        btn_save.setOnClickListener(this@UserProfileActivity)
+        btn_submit.setOnClickListener(this@UserProfileActivity)
     }
+
 
     override fun onClick(v: View?) {
         if (v != null) {
@@ -55,32 +59,48 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                     askPermissionIfRequired()
                 }
 
-                R.id.btn_save -> {
-
+                R.id.btn_submit -> {
                     if (validateUserProfileDetails()) {
-
-                        val userHashMap = HashMap<String, Any>()
-                        val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
-
-                        val gender = if (rb_male.isChecked) {
-                            Constants.MALE
-                        } else {
-                            Constants.FEMALE
-                        }
-
-                        userHashMap[Constants.MOBILE] = mobileNumber.toLong()
-                        userHashMap[Constants.GENDER] = gender
 
                         showProgressDialog(resources.getString(R.string.please_wait))
 
-                        FirestoreClass().updateUserProfileData(
-                            this@UserProfileActivity,
-                            userHashMap
-                        )
+                        if (mPhotoUri != null) {
+                            FirestoreClass().uploadImageToCloudStorage(this, mPhotoUri!!)
+                        } else {
+                            updateUserProfile()
+                        }
+
+
                     }
                 }
             }
         }
+    }
+
+
+    private fun updateUserProfile() {
+        val userHashMap = HashMap<String, Any>()
+
+        val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
+        val gender = if (rb_male.isChecked) {
+            Constants.MALE
+        } else {
+            Constants.FEMALE
+        }
+
+        if (mImageUrlLink != null && mPhotoUri != null) {
+            userHashMap[Constants.IMAGE] = mImageUrlLink!!
+        }
+        userHashMap[Constants.MOBILE] = mobileNumber.toLong()
+        userHashMap[Constants.GENDER] = gender
+        userHashMap[Constants.COMPLETE_PROFILE] = 1
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().updateUserProfileData(
+            this@UserProfileActivity,
+            userHashMap
+        )
     }
 
     private fun askPermissionIfRequired() {
@@ -130,10 +150,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             if (requestCode == Constants.PICK_IMAGE_REQUEST_CODE) {
                 if (data != null) {
                     try {
-                        val selectedImageFileUri = data.data!!
+                        mPhotoUri = data.data!!
 
                         GlideLoader(this@UserProfileActivity).loadUserPicture(
-                            selectedImageFileUri,
+                            mPhotoUri!!,
                             iv_user_photo
                         )
                     } catch (e: IOException) {
@@ -186,5 +206,16 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             javaClass.simpleName,
             "Error while updating the user details.",
         )
+    }
+
+    fun imageUploadSuccess(imageUrl: String) {
+        hideProgressDialog()
+        mImageUrlLink = imageUrl
+        updateUserProfile()
+    }
+
+    fun imageUploadFail(e: Exception) {
+        hideProgressDialog()
+        Log.e(javaClass.simpleName, e.message, e)
     }
 }
