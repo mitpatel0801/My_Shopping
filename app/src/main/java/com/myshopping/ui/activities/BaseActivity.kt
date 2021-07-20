@@ -1,6 +1,9 @@
 package com.myshopping.ui.activities
 
 import android.app.Dialog
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
@@ -11,6 +14,8 @@ import kotlinx.android.synthetic.main.dialog_progress.*
 open class BaseActivity : AppCompatActivity() {
 
     private lateinit var mProgressDialog: Dialog
+    private var doubleBackToExitPressedOnce = false
+
 
     fun showErrorSnackBar(message: String, errorMessage: Boolean) {
         val snackBar =
@@ -52,5 +57,23 @@ open class BaseActivity : AppCompatActivity() {
 
     fun hideProgressDialog() {
         mProgressDialog.dismiss()
+    }
+
+
+    fun doubleBackToExit() {
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, resources.getString(R.string.double_click_exit), Toast.LENGTH_SHORT)
+            .show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
+
     }
 }
