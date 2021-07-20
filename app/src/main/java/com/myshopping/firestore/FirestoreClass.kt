@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.myshopping.models.User
 import com.myshopping.ui.activities.LoginActivity
 import com.myshopping.ui.activities.RegisterActivity
+import com.myshopping.ui.activities.SettingActivity
 import com.myshopping.ui.activities.UserProfileActivity
 import com.myshopping.utils.Constants
 import com.myshopping.utils.UtilsFunctions
@@ -74,11 +75,17 @@ class FirestoreClass {
                     is LoginActivity -> {
                         activity.userLoggedInSuccess(user)
                     }
+                    is SettingActivity -> {
+                        activity.userLoggedInSuccess(user)
+                    }
                 }
             }
             .addOnFailureListener { e ->
                 when (activity) {
                     is LoginActivity -> {
+                        activity.userLoggedInFailure(e)
+                    }
+                    is SettingActivity -> {
                         activity.userLoggedInFailure(e)
                     }
                 }

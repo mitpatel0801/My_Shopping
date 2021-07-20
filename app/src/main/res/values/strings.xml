@@ -64,4 +64,9 @@
     <string name="title_products">Products</string>
     <string name="setting">Setting</string>
 
+    <string name="title_settings">Setting</string>
+    <string name="lbl_edit">Edit</string>
+    <string name="lbl_addresses">Addresses</string>
+    <string name="btn_lbl_logout">Logout</string>
+
 </resources>
