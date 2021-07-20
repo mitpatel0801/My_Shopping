@@ -103,7 +103,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)
         } else {
-            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+            val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
 
         finish()

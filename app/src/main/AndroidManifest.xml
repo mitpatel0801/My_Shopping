@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activities.SettingActivity"></activity>
         <activity
             android:name=".ui.activities.DashboardActivity"
             android:label="@string/title_activity_dashboard" />

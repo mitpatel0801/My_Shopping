@@ -62,5 +62,6 @@
     <string name="double_click_exit">Please click back again to exit</string>
     <string name="title_orders">Orders</string>
     <string name="title_products">Products</string>
+    <string name="setting">Setting</string>
 
 </resources>
