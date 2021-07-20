@@ -25,6 +25,8 @@ object Constants {
     const val GENDER: String = "gender"
     const val IMAGE: String = "image"
     const val COMPLETE_PROFILE: String = "profileCompleted"
+    const val FIRST_NAME = "firstName"
+    const val LAST_NAME = "lastName"
 
     //Firebase Storage prefix
     const val USER_PROFILE_IMAGE = "user_profile_image"

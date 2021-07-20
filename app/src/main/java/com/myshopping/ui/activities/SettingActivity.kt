@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.myshopping.R
 import com.myshopping.firestore.FirestoreClass
 import com.myshopping.models.User
+import com.myshopping.utils.Constants
 import com.myshopping.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_setting.*
 
@@ -95,7 +96,9 @@ class SettingActivity : BaseActivity(), View.OnClickListener {
                 finish()
             }
             R.id.tv_edit -> {
-                TODO("Make Intent for starting User Profile and make changes UserProfileActivity accordingly ")
+                val intent = Intent(this, UserProfileActivity::class.java)
+                intent.putExtra(Constants.EXTRA_USER_DETAILS, mUser)
+                startActivity(intent)
             }
         }
     }
