@@ -73,6 +73,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
         btn_submit.setOnClickListener(this@UserProfileActivity)
+
     }
 
     private fun setupActionBar() {
@@ -99,7 +100,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                         showProgressDialog(resources.getString(R.string.please_wait))
 
                         if (mPhotoUri != null) {
-                            FirestoreClass().uploadImageToCloudStorage(this, mPhotoUri!!)
+                            FirestoreClass().uploadImageToCloudStorage(this, mPhotoUri!!,Constants.USER_PROFILE_IMAGE)
                         } else {
                             updateUserProfile()
                         }

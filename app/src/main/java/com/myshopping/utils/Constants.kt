@@ -4,8 +4,9 @@ package com.myshopping.utils
 object Constants {
 
 
+
     //Shared Pref
-    const val MY_SHOPPING: String = "MyShopPalPrefs"
+    const val MY_SHOPPING_PREF: String = "MyShoppingPrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
 
     // Intent extra constants.
@@ -28,6 +29,11 @@ object Constants {
     const val FIRST_NAME = "firstName"
     const val LAST_NAME = "lastName"
 
+    const val PRODUCTS = "products"
+
+
     //Firebase Storage prefix
     const val USER_PROFILE_IMAGE = "user_profile_image"
+    const val PRODUCT_IMAGE = "product_image"
+
 }

@@ -8,11 +8,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
+import com.myshopping.models.Product
 import com.myshopping.models.User
-import com.myshopping.ui.activities.LoginActivity
-import com.myshopping.ui.activities.RegisterActivity
-import com.myshopping.ui.activities.SettingActivity
-import com.myshopping.ui.activities.UserProfileActivity
+import com.myshopping.ui.activities.*
 import com.myshopping.utils.Constants
 import com.myshopping.utils.UtilsFunctions
 
@@ -21,7 +19,6 @@ class FirestoreClass {
 
 
     private val mFireStore = FirebaseFirestore.getInstance()
-
 
     fun registerUser(activity: RegisterActivity, userInfo: User) {
 
@@ -36,8 +33,7 @@ class FirestoreClass {
             }
     }
 
-
-    private fun getCurrentUserID(): String {
+    fun getCurrentUserID(): String {
         val currentUser = FirebaseAuth.getInstance().currentUser
         var currentUserID = ""
         if (currentUser != null) {
@@ -46,7 +42,6 @@ class FirestoreClass {
 
         return currentUserID
     }
-
 
     fun getUserDetails(activity: Activity) {
 
@@ -60,7 +55,7 @@ class FirestoreClass {
                 //Todo(Shared Pref Change to singleTon)
                 val sharedPreferences =
                     activity.getSharedPreferences(
-                        Constants.MY_SHOPPING,
+                        Constants.MY_SHOPPING_PREF,
                         Context.MODE_PRIVATE
                     )
 
@@ -93,7 +88,6 @@ class FirestoreClass {
             }
     }
 
-
     fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
@@ -111,13 +105,33 @@ class FirestoreClass {
                         activity.userProfileUpdateFailure(e)
                     }
                 }
-
             }
     }
 
-    fun uploadImageToCloudStorage(activity: Activity, photoUri: Uri) {
+    fun uploadProduct(activity: Activity,product: Product)
+    {
+        mFireStore.collection(Constants.PRODUCTS)
+            .document()
+            .set(product, SetOptions.merge())
+            .addOnSuccessListener {
+                when (activity) {
+                    is AddProductActivity -> {
+                        activity.productUploadedSuccessfully()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is AddProductActivity -> {
+                        activity.productUploadOnFailure(e)
+                    }
+                }
+            }
+    }
+
+    fun uploadImageToCloudStorage(activity: Activity, photoUri: Uri,imageType:String) {
         val sRef = FirebaseStorage.getInstance().reference.child(
-            "${Constants.USER_PROFILE_IMAGE}${System.currentTimeMillis()}${
+            "${imageType}${System.currentTimeMillis()}${
                 UtilsFunctions.getFileExtensions(
                     activity,
                     photoUri
@@ -132,12 +146,18 @@ class FirestoreClass {
                     is UserProfileActivity -> {
                         activity.imageUploadSuccess(uri.toString())
                     }
+                    is AddProductActivity->{
+                        activity.productImageUploadOnSuccess(uri.toString())
+                    }
                 }
             }
                 .addOnFailureListener { e ->
                     when (activity) {
                         is UserProfileActivity -> {
                             activity.imageUploadFail(e)
+                        }
+                        is AddProductActivity->{
+                            activity.productUploadOnFailure(e)
                         }
                     }
                 }
@@ -146,7 +166,10 @@ class FirestoreClass {
         }.addOnFailureListener { e ->
             when (activity) {
                 is UserProfileActivity -> {
-
+                    activity.imageUploadFail(e)
+                }
+                is AddProductActivity->{
+                    activity.productUploadOnFailure(e)
                 }
             }
         }

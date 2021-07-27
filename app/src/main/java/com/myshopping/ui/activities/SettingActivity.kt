@@ -15,14 +15,12 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var mUser: User
-    private val TAG = "AAA"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
         setupActionBar()
-        Log.d(TAG, "onCreate: ")
-
         btn_logout.setOnClickListener(this)
         tv_edit.setOnClickListener(this)
     }
@@ -31,8 +29,6 @@ class SettingActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         getUserData()
-        Log.d(TAG, "onResume: ")
-
     }
 
     private fun getUserData() {
@@ -63,26 +59,6 @@ class SettingActivity : BaseActivity(), View.OnClickListener {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
 
         toolbar_settings_activity.setNavigationOnClickListener { onBackPressed() }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart: ")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: ")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause: ")
     }
 
     override fun onClick(v: View?) {

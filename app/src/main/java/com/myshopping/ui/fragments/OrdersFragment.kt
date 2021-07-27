@@ -16,15 +16,14 @@ class OrdersFragment : Fragment() {
     private lateinit var ordersViewModel: OrdersViewModel
     private var _binding: FragmentOrdersBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         ordersViewModel =
             ViewModelProvider(this).get(OrdersViewModel::class.java)
 
