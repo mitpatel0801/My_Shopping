@@ -4,6 +4,8 @@ package com.myshopping.utils
 object Constants {
 
 
+    val USER_ID: String = "user_id"
+
 
     //Shared Pref
     const val MY_SHOPPING_PREF: String = "MyShoppingPrefs"
@@ -19,6 +21,7 @@ object Constants {
     const val PICK_IMAGE_REQUEST_CODE = 2
 
     //FireBase Constants.
+    //Users
     const val USERS: String = "users"
     const val MALE: String = "Male"
     const val FEMALE: String = "Female"
@@ -29,6 +32,7 @@ object Constants {
     const val FIRST_NAME = "firstName"
     const val LAST_NAME = "lastName"
 
+    //Products
     const val PRODUCTS = "products"
 
 

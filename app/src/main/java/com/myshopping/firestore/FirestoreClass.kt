@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -11,6 +12,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.myshopping.models.Product
 import com.myshopping.models.User
 import com.myshopping.ui.activities.*
+import com.myshopping.ui.fragments.DashboardFragment
+import com.myshopping.ui.fragments.ProductsFragment
 import com.myshopping.utils.Constants
 import com.myshopping.utils.UtilsFunctions
 
@@ -108,8 +111,7 @@ class FirestoreClass {
             }
     }
 
-    fun uploadProduct(activity: Activity,product: Product)
-    {
+    fun uploadProduct(activity: Activity, product: Product) {
         mFireStore.collection(Constants.PRODUCTS)
             .document()
             .set(product, SetOptions.merge())
@@ -129,7 +131,7 @@ class FirestoreClass {
             }
     }
 
-    fun uploadImageToCloudStorage(activity: Activity, photoUri: Uri,imageType:String) {
+    fun uploadImageToCloudStorage(activity: Activity, photoUri: Uri, imageType: String) {
         val sRef = FirebaseStorage.getInstance().reference.child(
             "${imageType}${System.currentTimeMillis()}${
                 UtilsFunctions.getFileExtensions(
@@ -146,7 +148,7 @@ class FirestoreClass {
                     is UserProfileActivity -> {
                         activity.imageUploadSuccess(uri.toString())
                     }
-                    is AddProductActivity->{
+                    is AddProductActivity -> {
                         activity.productImageUploadOnSuccess(uri.toString())
                     }
                 }
@@ -156,7 +158,7 @@ class FirestoreClass {
                         is UserProfileActivity -> {
                             activity.imageUploadFail(e)
                         }
-                        is AddProductActivity->{
+                        is AddProductActivity -> {
                             activity.productUploadOnFailure(e)
                         }
                     }
@@ -168,10 +170,59 @@ class FirestoreClass {
                 is UserProfileActivity -> {
                     activity.imageUploadFail(e)
                 }
-                is AddProductActivity->{
+                is AddProductActivity -> {
                     activity.productUploadOnFailure(e)
                 }
             }
         }
+    }
+
+    fun getProductsList(fragment: Fragment) {
+        mFireStore.collection(Constants.PRODUCTS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+
+                val productList: MutableList<Product> = mutableListOf()
+
+                for (productObject in document.documents) {
+                    with(productObject)
+                    {
+                        val product = this.toObject(Product::class.java)
+                        product!!.id = productObject.id
+                        productList.add(product)
+                    }
+                }
+
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.onSuccessProductList(productList)
+                    }
+                }
+            }
+    }
+
+    fun getDashboardProductsList(dashboardFragment: DashboardFragment) {
+
+        mFireStore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val productList: MutableList<Product> = mutableListOf()
+
+                for (productObject in document.documents) {
+                    with(productObject)
+                    {
+                        val product = this.toObject(Product::class.java)
+                        product!!.id = productObject.id
+                        productList.add(product)
+                    }
+                }
+                dashboardFragment.onSuccessProductList(productList)
+            }
+            .addOnFailureListener { e ->
+                dashboardFragment.onFailureProductList(e)
+            }
+
     }
 }
