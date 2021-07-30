@@ -84,8 +84,21 @@
     <string name="err_msg_enter_product_quantity">Please enter product quantity.</string>
 
     <string name="product_uploaded_success_message">Your product is uploaded successfully.</string>
+    <string name="product_delete_success_message">Your product is deleted.</string>
+
     <string name="no_products_added_yet">No products added yet!</string>
     <string name="no_dashboard_item_found">No items found!</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_dialog_title">Delete</string>
+    <string name="delete_dialog_message">Are you sure you want to delete the product?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="title_product_details">PRODUCT DETAILS</string>
+    <string name="lbl_product_description">Product Description</string>
+    <string name="lbl_product_details_stock_quantity">Stock Quantity</string>
+    <string name="product_price">$ %1$s</string>
+    <string name="title_edit_product">Edit Product</string>
+    <string name="product_updated_successfully">Product Updated Successfully</string>
+
 </resources>

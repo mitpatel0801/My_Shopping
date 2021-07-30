@@ -1,6 +1,7 @@
 package com.myshopping.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.myshopping.R
 import com.myshopping.models.Product
+import com.myshopping.ui.activities.ProductDetailsActivity
+import com.myshopping.ui.fragments.ProductsFragment
+import com.myshopping.utils.Constants
 import com.myshopping.utils.GlideLoader
+import kotlinx.android.synthetic.main.item_list_layout.view.*
 
-class MyProductsListAdapter(private val context: Context, private val list: List<Product>) :
+class MyProductsListAdapter(
+    private val context: Context,
+    private val list: List<Product>,
+    private val productsFragment: ProductsFragment
+) :
     RecyclerView.Adapter<MyProductsListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -38,8 +47,16 @@ class MyProductsListAdapter(private val context: Context, private val list: List
         fun bind(product: Product) {
             GlideLoader(context).loadProductPicture(product.image, imageView)
             name.text = product.title
-            price.text = product.price
+            price.text = context.getString(R.string.product_price, product.price)
+            itemView.ib_delete_product.setOnClickListener {
+                this@MyProductsListAdapter.productsFragment.onProductDelete(product.id)
+            }
+            itemView.setOnClickListener {
+                val intent = Intent(context, ProductDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_PRODUCT_ID, product.id)
+                intent.putExtra(Constants.EXTRA_FRAGMENT_PRODUCTS, true)
+                context.startActivity(intent)
+            }
         }
-
     }
 }

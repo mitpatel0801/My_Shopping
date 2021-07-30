@@ -64,7 +64,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             GlideLoader(this).loadUserPicture(mUserDetails.image, iv_user_photo)
 
             //Radio button
-            if (mUserDetails.gender == Constants.MALE) {
+            if (mUserDetails.gender == Constants.USER_MALE) {
                 rg_gender.check(R.id.rb_male)
             } else {
                 rg_gender.check(R.id.rb_female)
@@ -100,7 +100,11 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                         showProgressDialog(resources.getString(R.string.please_wait))
 
                         if (mPhotoUri != null) {
-                            FirestoreClass().uploadImageToCloudStorage(this, mPhotoUri!!,Constants.USER_PROFILE_IMAGE)
+                            FirestoreClass().uploadImageToCloudStorage(
+                                this,
+                                mPhotoUri!!,
+                                Constants.PREFIX_USER_PROFILE_IMAGE
+                            )
                         } else {
                             updateUserProfile()
                         }
@@ -120,32 +124,32 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         val lastName = et_last_name.text.toString().trim { it <= ' ' }
         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
         val gender = if (rb_male.isChecked) {
-            Constants.MALE
+            Constants.USER_MALE
         } else {
-            Constants.FEMALE
+            Constants.USER_FEMALE
         }
 
         if (firstName != mUserDetails.firstName) {
-            userHashMap[Constants.FIRST_NAME] = firstName
+            userHashMap[Constants.USER_FIRST_NAME] = firstName
         }
 
         if (lastName != mUserDetails.lastName) {
-            userHashMap[Constants.LAST_NAME] = lastName
+            userHashMap[Constants.USER_LAST_NAME] = lastName
         }
 
         if (mobileNumber != mUserDetails.mobile.toString()) {
-            userHashMap[Constants.MOBILE] = mobileNumber.toLong()
+            userHashMap[Constants.USER_MOBILE] = mobileNumber.toLong()
         }
 
         if (gender != mUserDetails.gender) {
-            userHashMap[Constants.GENDER] = gender
+            userHashMap[Constants.USER_GENDER] = gender
         }
 
         if (mImageUrlLink != null && mPhotoUri != null) {
-            userHashMap[Constants.IMAGE] = mImageUrlLink!!
+            userHashMap[Constants.USER_IMAGE] = mImageUrlLink!!
         }
 
-        userHashMap[Constants.COMPLETE_PROFILE] = 1
+        userHashMap[Constants.USER_COMPLETE_PROFILE] = 1
 
         showProgressDialog(resources.getString(R.string.please_wait))
 

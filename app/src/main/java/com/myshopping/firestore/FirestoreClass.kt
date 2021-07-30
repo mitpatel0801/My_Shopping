@@ -15,6 +15,7 @@ import com.myshopping.ui.activities.*
 import com.myshopping.ui.fragments.DashboardFragment
 import com.myshopping.ui.fragments.ProductsFragment
 import com.myshopping.utils.Constants
+import com.myshopping.utils.Constants.PRODUCTS
 import com.myshopping.utils.UtilsFunctions
 
 
@@ -112,9 +113,13 @@ class FirestoreClass {
     }
 
     fun uploadProduct(activity: Activity, product: Product) {
-        mFireStore.collection(Constants.PRODUCTS)
+
+        val newProduct = mFireStore.collection(PRODUCTS)
             .document()
-            .set(product, SetOptions.merge())
+
+        product.id = newProduct.id
+
+        newProduct.set(product, SetOptions.merge())
             .addOnSuccessListener {
                 when (activity) {
                     is AddProductActivity -> {
@@ -125,7 +130,7 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 when (activity) {
                     is AddProductActivity -> {
-                        activity.productUploadOnFailure(e)
+                        activity.productFailureMessages(e)
                     }
                 }
             }
@@ -143,23 +148,24 @@ class FirestoreClass {
 
         sRef.putFile(photoUri).addOnSuccessListener { taskSnapShot ->
 
-            taskSnapShot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
-                when (activity) {
-                    is UserProfileActivity -> {
-                        activity.imageUploadSuccess(uri.toString())
-                    }
-                    is AddProductActivity -> {
-                        activity.productImageUploadOnSuccess(uri.toString())
+            taskSnapShot.metadata!!.reference!!.downloadUrl
+                .addOnSuccessListener { uri ->
+                    when (activity) {
+                        is UserProfileActivity -> {
+                            activity.imageUploadSuccess(uri.toString())
+                        }
+                        is AddProductActivity -> {
+                            activity.productImageUploadOnSuccess(uri.toString())
+                        }
                     }
                 }
-            }
                 .addOnFailureListener { e ->
                     when (activity) {
                         is UserProfileActivity -> {
                             activity.imageUploadFail(e)
                         }
                         is AddProductActivity -> {
-                            activity.productUploadOnFailure(e)
+                            activity.productFailureMessages(e)
                         }
                     }
                 }
@@ -171,14 +177,14 @@ class FirestoreClass {
                     activity.imageUploadFail(e)
                 }
                 is AddProductActivity -> {
-                    activity.productUploadOnFailure(e)
+                    activity.productFailureMessages(e)
                 }
             }
         }
     }
 
     fun getProductsList(fragment: Fragment) {
-        mFireStore.collection(Constants.PRODUCTS)
+        mFireStore.collection(PRODUCTS)
             .whereEqualTo(Constants.USER_ID, getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
@@ -189,8 +195,7 @@ class FirestoreClass {
                     with(productObject)
                     {
                         val product = this.toObject(Product::class.java)
-                        product!!.id = productObject.id
-                        productList.add(product)
+                        productList.add(product!!)
                     }
                 }
 
@@ -214,8 +219,7 @@ class FirestoreClass {
                     with(productObject)
                     {
                         val product = this.toObject(Product::class.java)
-                        product!!.id = productObject.id
-                        productList.add(product)
+                        productList.add(product!!)
                     }
                 }
                 dashboardFragment.onSuccessProductList(productList)
@@ -224,5 +228,61 @@ class FirestoreClass {
                 dashboardFragment.onFailureProductList(e)
             }
 
+    }
+
+    fun deleteProduct(productId: String, fragment: ProductsFragment) {
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                fragment.onProductSuccessfullyDeleted()
+            }
+            .addOnFailureListener { e ->
+                fragment.onProductDeleteFailure(e)
+            }
+    }
+
+    fun fetchProductDetails(activity: Activity, productId: String) {
+
+        mFireStore.collection(PRODUCTS)
+            .document(productId)
+            .get()
+            .addOnSuccessListener { document ->
+                val product = document.toObject(Product::class.java)
+                when (activity) {
+                    is ProductDetailsActivity -> {
+                        activity.onProductDetailFetchSuccess(product!!)
+                    }
+                    is AddProductActivity -> {
+                        activity.showProductDetails(product!!)
+                    }
+                }
+
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is ProductDetailsActivity -> {
+                        activity.onProductDetailFetchFailure(e)
+                    }
+                    is AddProductActivity -> {
+                        activity.productFailureMessages(e)
+                    }
+                }
+            }
+    }
+
+    fun updateProductDetails(
+        productId: String,
+        productDetails: HashMap<String, Any>,
+        activity: AddProductActivity
+    ) {
+        mFireStore.collection(PRODUCTS).document(productId)
+            .update(productDetails)
+            .addOnSuccessListener {
+                activity.productUpdatedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                activity.productFailureMessages(e)
+            }
     }
 }
