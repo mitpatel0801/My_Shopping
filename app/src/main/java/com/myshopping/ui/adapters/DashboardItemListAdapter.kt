@@ -47,6 +47,7 @@ class DashboardItemListAdapter(private val context: Context, private val list: L
             itemView.setOnClickListener {
                 val intent = Intent(context, ProductDetailsActivity::class.java)
                 intent.putExtra(Constants.EXTRA_PRODUCT_ID, product.id)
+                intent.putExtra(Constants.EXTRA_USER_ID, product.user_id)
                 context.startActivity(intent)
             }
         }

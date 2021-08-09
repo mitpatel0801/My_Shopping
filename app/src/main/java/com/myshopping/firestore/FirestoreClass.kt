@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
+import com.myshopping.models.CartItem
 import com.myshopping.models.Product
 import com.myshopping.models.User
 import com.myshopping.ui.activities.*
@@ -283,6 +284,35 @@ class FirestoreClass {
             }
             .addOnFailureListener { e ->
                 activity.productFailureMessages(e)
+            }
+    }
+
+    fun addCartItem(activity: ProductDetailsActivity, cartItem: CartItem) {
+        val newCartItem = mFireStore.collection(Constants.CART_ITEMS)
+            .document()
+        cartItem.id = newCartItem.id
+
+        newCartItem.set(cartItem, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.addCartSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                activity.addCartFailure(e)
+            }
+
+    }
+
+
+    fun checkIfItemExistInCart(activity: ProductDetailsActivity, productId: String) {
+        mFireStore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.CART_PRODUCT_ID, productId)
+            .get()
+            .addOnSuccessListener { document ->
+                activity.productExitstCartSuccess(document.documents.size > 0)
+            }
+            .addOnFailureListener { e ->
+                activity.addCartFailure(e)
             }
     }
 }

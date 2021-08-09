@@ -12,6 +12,7 @@ object Constants {
     const val EXTRA_USER_DETAILS = "extra_user_details"
     const val EXTRA_PRODUCT_ID = "product_id"
     const val EXTRA_FRAGMENT_PRODUCTS = "open_from_products_fragment"
+    const val EXTRA_USER_ID = "user_id"
 
 
     //Permission
@@ -41,6 +42,11 @@ object Constants {
     const val PRODUCT_PRICE = "price"
     const val PRODUCT_STOCK_QUANTITY = "stock_quantity"
     const val PRODUCT_TITLE = "title"
+
+    //Cart
+    const val CART_ITEMS = "cart_items"
+    const val CART_PRODUCT_ID = "product_id"
+
 
     //Firebase Storage prefix
     const val PREFIX_USER_PROFILE_IMAGE = "user_profile_image"

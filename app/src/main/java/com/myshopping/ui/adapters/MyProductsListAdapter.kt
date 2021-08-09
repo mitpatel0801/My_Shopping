@@ -55,6 +55,7 @@ class MyProductsListAdapter(
                 val intent = Intent(context, ProductDetailsActivity::class.java)
                 intent.putExtra(Constants.EXTRA_PRODUCT_ID, product.id)
                 intent.putExtra(Constants.EXTRA_FRAGMENT_PRODUCTS, true)
+                intent.putExtra(Constants.EXTRA_USER_ID, product.user_id)
                 context.startActivity(intent)
             }
         }

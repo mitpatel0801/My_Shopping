@@ -73,6 +73,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun logInRegisteredUser() {
 
+        //ONLY FOR TEST
+        if (et_email.text.contentEquals("1")) {
+            et_email.setText("m@gmail.com")
+        } else {
+            et_email.setText("mm@gmail.com")
+        }
+        et_password.setText("123456")
+        //ONLY FOR TEST
+
+
         if (validateLoginDetails()) {
 
             showProgressDialog(resources.getString(R.string.please_wait))

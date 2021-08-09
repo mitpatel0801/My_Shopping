@@ -10,6 +10,7 @@ import com.myshopping.R
 import com.myshopping.databinding.FragmentDashboardBinding
 import com.myshopping.firestore.FirestoreClass
 import com.myshopping.models.Product
+import com.myshopping.ui.activities.CartListActivity
 import com.myshopping.ui.activities.SettingActivity
 import com.myshopping.ui.adapters.DashboardItemListAdapter
 import com.myshopping.ui.viewmodels.DashboardViewModel
@@ -44,7 +45,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.setting, menu)
+        inflater.inflate(R.menu.dashboard_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -54,6 +55,10 @@ class DashboardFragment : BaseFragment() {
                 startActivity(Intent(activity, SettingActivity::class.java))
                 true
             }
+            R.id.action_go_to_cart -> {
+                startActivity(Intent(activity, CartListActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -61,7 +66,6 @@ class DashboardFragment : BaseFragment() {
     fun onSuccessProductList(productList: MutableList<Product>) {
         hideProgressDialog()
         if (productList.isNotEmpty()) {
-
             tv_no_dashboard_items_found.visibility = View.GONE
             rv_dashboard_items.visibility = View.VISIBLE
 

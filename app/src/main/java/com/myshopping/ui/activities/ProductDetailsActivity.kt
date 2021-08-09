@@ -6,17 +6,21 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.myshopping.R
 import com.myshopping.firestore.FirestoreClass
+import com.myshopping.models.CartItem
 import com.myshopping.models.Product
 import com.myshopping.utils.Constants
 import com.myshopping.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_product_details.*
 
-class ProductDetailsActivity : BaseActivity() {
+class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var productId: String
     private var showMenu: Boolean = false
+    private lateinit var mProduct: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +34,22 @@ class ProductDetailsActivity : BaseActivity() {
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             productId = intent.getStringExtra(Constants.EXTRA_PRODUCT_ID)!!
         }
+        var userId = ""
+        if (intent.hasExtra(Constants.EXTRA_USER_ID)) {
+            userId = intent.getStringExtra(Constants.EXTRA_USER_ID)!!
+        }
+
+        if (userId == FirestoreClass().getCurrentUserID()) {
+            btn_add_to_cart.visibility = View.GONE
+        } else {
+            btn_add_to_cart.visibility = View.VISIBLE
+        }
 
         getProductDetails()
+
+
+        btn_add_to_cart.setOnClickListener(this)
+        btn_go_to_cart.setOnClickListener(this)
     }
 
     private fun getProductDetails() {
@@ -50,14 +68,20 @@ class ProductDetailsActivity : BaseActivity() {
 
     fun onProductDetailFetchSuccess(product: Product) {
 
-        hideProgressDialog()
-
+        mProduct = product
         GlideLoader(this).loadProductPicture(product.image, iv_product_detail_image)
         tv_product_details_title.text = product.title
         tv_product_details_price.text = getString(R.string.product_price, product.price)
         tv_product_details_description.text = product.description
         tv_product_details_available_quantity.text = product.stock_quantity
+
+        if (mProduct.user_id == FirestoreClass().getCurrentUserID()) {
+            hideProgressDialog()
+        } else {
+            FirestoreClass().checkIfItemExistInCart(this, mProduct.id)
+        }
     }
+
 
     fun onProductDetailFetchFailure(e: Exception) {
         hideProgressDialog()
@@ -83,6 +107,53 @@ class ProductDetailsActivity : BaseActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_add_to_cart -> {
+                addToCart()
+            }
+            R.id.btn_go_to_cart -> {
+                startActivity(Intent(this, CartListActivity::class.java))
+            }
+        }
+    }
+
+    private fun addToCart() {
+        val cartItem = CartItem(
+            FirestoreClass().getCurrentUserID(),
+            mProduct.id,
+            mProduct.title,
+            mProduct.price,
+            mProduct.image
+        )
+        showProgressDialog(getString(R.string.please_wait))
+        FirestoreClass().addCartItem(this, cartItem)
+    }
+
+    fun addCartFailure(e: Exception) {
+        hideProgressDialog()
+        Log.e(javaClass.simpleName, e.message, e)
+    }
+
+    fun addCartSuccessfully() {
+        hideProgressDialog()
+        Toast.makeText(
+            this,
+            getString(R.string.success_message_item_added_to_cart),
+            Toast.LENGTH_LONG
+        ).show()
+        btn_add_to_cart.visibility = View.GONE
+        btn_go_to_cart.visibility = View.VISIBLE
+    }
+
+    fun productExitstCartSuccess(isExist: Boolean) {
+        hideProgressDialog()
+        if (isExist) {
+            btn_add_to_cart.visibility = View.GONE
+            btn_go_to_cart.visibility = View.VISIBLE
         }
     }
 }

@@ -43,7 +43,7 @@ class ProductsFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.add_product, menu)
+        inflater.inflate(R.menu.product_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
 
     }
