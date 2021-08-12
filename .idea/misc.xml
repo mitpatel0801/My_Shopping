@@ -5,9 +5,14 @@
       <map>
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/drawable/ic_vector_add.xml" value="0.21822916666666667" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/drawable/ic_vector_remove.xml" value="0.21822916666666667" />
+        <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_add_edit_address.xml" value="0.33" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_add_product.xml" value="0.2" />
+        <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_address_list.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_cart_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_product_details.xml" value="0.43792325056433407" />
+        <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_setting.xml" value="0.21739130434782608" />
+        <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/activity_user_profile.xml" value="0.21739130434782608" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/layout/item_cart_layout.xml" value="0.9" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/menu/add_product.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidWorkSpace/Coding NInja Exercises1/My Shopping/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
