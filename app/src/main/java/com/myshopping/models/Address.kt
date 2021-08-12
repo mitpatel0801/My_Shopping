@@ -16,7 +16,7 @@ data class Address(
     var id: String = "",
 ) : Parcelable
 
-enum class AdderssType {
+enum class AddressType {
     HOME,
     OFFICE,
     OTHER

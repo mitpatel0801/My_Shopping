@@ -149,4 +149,5 @@
 
 
     <string name="title_select_address">SELECT ADDRESS</string>
+    <string name="err_your_address_edited_successfully">Address Edited Successfully</string>
 </resources>

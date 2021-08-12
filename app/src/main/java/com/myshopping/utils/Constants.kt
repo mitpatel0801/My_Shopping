@@ -14,6 +14,7 @@ object Constants {
     const val EXTRA_PRODUCT_ID = "product_id"
     const val EXTRA_FRAGMENT_PRODUCTS = "open_from_products_fragment"
     const val EXTRA_USER_ID = "user_id"
+    const val EXTRA_ADDRESS_ID = "address_id"
 
 
     //Permission
@@ -51,7 +52,13 @@ object Constants {
 
     //Address
     const val ADDRESSES: String = "addresses"
-
+    const val ADDRESS_NAME: String = "name"
+    const val ADDRESS_PHONE_NUMBER: String = "mobileNumber"
+    const val ADDRESS_ADDRESS: String = "address"
+    const val ADDRESS_ZIPCODE: String = "zipCode"
+    const val ADDRESS_ADDITIONAL_NOTE: String = "additionalNote"
+    const val ADDRESS_OTHER_DETAILS: String = "otherDetails"
+    const val TYPE: String = "type"
 
     //Firebase Storage prefix
     const val PREFIX_USER_PROFILE_IMAGE = "user_profile_image"

@@ -109,9 +109,7 @@ class CartItemListAdapter(private val context: Context, private val list: List<C
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(list[position])
 
     override fun getItemCount(): Int = list.size
 }

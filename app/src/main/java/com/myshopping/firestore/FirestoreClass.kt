@@ -417,4 +417,51 @@ class FirestoreClass {
             }
 
     }
+
+    fun getAddresses(addressListActivity: AddressListActivity) {
+        mFireStore.collection(Constants.ADDRESSES)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener {
+                val mutableList = mutableListOf<Address>()
+                for (document in it.documents) {
+                    mutableList.add(document.toObject(Address::class.java)!!)
+                }
+                addressListActivity.getAddressesSuccessfully(mutableList)
+            }
+            .addOnFailureListener { e ->
+                addressListActivity.firebaseFailure(e)
+            }
+    }
+
+
+    fun getAddress(addEditAddressActivity: AddEditAddressActivity, address_id: String) {
+
+        mFireStore.collection(Constants.ADDRESSES)
+            .document(address_id)
+            .get()
+            .addOnSuccessListener {
+                val address = it.toObject(Address::class.java)!!
+                addEditAddressActivity.getAddressSuccessfully(address)
+            }
+            .addOnFailureListener { e ->
+                addEditAddressActivity.addressAddFailure(e)
+            }
+    }
+
+    fun editAddress(
+        addEditAddressActivity: AddEditAddressActivity,
+        address_id: String,
+        hashMap: HashMap<String, Any>
+    ) {
+        mFireStore.collection(Constants.ADDRESSES)
+            .document(address_id)
+            .update(hashMap)
+            .addOnSuccessListener {
+                addEditAddressActivity.addressEditedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                addEditAddressActivity.addressAddFailure(e)
+            }
+    }
 }
