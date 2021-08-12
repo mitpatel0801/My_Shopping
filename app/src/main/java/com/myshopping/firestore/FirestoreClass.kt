@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
+import com.myshopping.models.Address
 import com.myshopping.models.CartItem
 import com.myshopping.models.Product
 import com.myshopping.models.User
@@ -400,5 +401,20 @@ class FirestoreClass {
                     }
                 }
             }
+    }
+
+    fun addAddress(addEditAddressActivity: AddEditAddressActivity, finalAddress: Address) {
+        val newAddress = mFireStore.collection(Constants.ADDRESSES)
+            .document()
+        finalAddress.id = newAddress.id
+
+        newAddress.set(finalAddress, SetOptions.merge())
+            .addOnSuccessListener {
+                addEditAddressActivity.addressAddedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                addEditAddressActivity.addressAddFailure(e)
+            }
+
     }
 }
