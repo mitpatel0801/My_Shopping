@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.myshopping.R
 import com.myshopping.firestore.FirestoreClass
 import com.myshopping.models.CartItem
@@ -75,11 +76,25 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         tv_product_details_description.text = product.description
         tv_product_details_available_quantity.text = product.stock_quantity
 
-        if (mProduct.user_id == FirestoreClass().getCurrentUserID()) {
+        if (product.stock_quantity.toInt() == 0) {
             hideProgressDialog()
+
+            btn_add_to_cart.visibility = View.GONE
+            tv_product_details_available_quantity.text = getString(R.string.lbl_out_of_stock)
+            tv_product_details_available_quantity.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.colorSnackBarError
+                )
+            )
         } else {
-            FirestoreClass().checkIfItemExistInCart(this, mProduct.id)
+            if (mProduct.user_id == FirestoreClass().getCurrentUserID()) {
+                hideProgressDialog()
+            } else {
+                FirestoreClass().checkIfItemExistInCart(this, mProduct.id)
+            }
         }
+
     }
 
 

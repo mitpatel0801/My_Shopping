@@ -315,4 +315,90 @@ class FirestoreClass {
                 activity.addCartFailure(e)
             }
     }
+
+
+    fun getCartList(activity: Activity) {
+        mFireStore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener {
+                val items = mutableListOf<CartItem>()
+                for (document in it.documents) {
+                    items.add(document.toObject(CartItem::class.java)!!)
+                }
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.getCartItemsSuccess(items)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.addFailureFireStore(e)
+                    }
+                }
+            }
+    }
+
+    fun getProductList(activity: CartListActivity) {
+        mFireStore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener {
+                val products = mutableListOf<Product>()
+                for (document in it.documents) {
+                    products.add(document.toObject(Product::class.java)!!)
+                }
+                activity.getAllProductSuccess(products)
+            }
+            .addOnFailureListener { e ->
+                activity.addFailureFireStore(e)
+            }
+
+    }
+
+    fun deleteCartItem(activity: Context, itemId: String) {
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document(itemId)
+            .delete()
+            .addOnSuccessListener {
+                when (activity) {
+                    is CartListActivity -> {
+
+                        activity.cartItemDeletedSuccessfully()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is CartListActivity -> {
+
+                        activity.addFailureFireStore(e)
+                    }
+                }
+            }
+    }
+
+
+    fun updateMyCart(activity: Context, cartId: String, itemHashMap: HashMap<String, Any>) {
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document(cartId)
+            .update(itemHashMap)
+            .addOnSuccessListener {
+                when (activity) {
+                    is CartListActivity -> {
+
+                        activity.itemUpdatedSuccessfully()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is CartListActivity -> {
+
+                        activity.addFailureFireStore(e)
+                    }
+                }
+            }
+    }
 }

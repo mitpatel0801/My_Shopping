@@ -46,6 +46,7 @@ object Constants {
     //Cart
     const val CART_ITEMS = "cart_items"
     const val CART_PRODUCT_ID = "product_id"
+    const val CART_QUANTITY = "cart_quantity"
 
 
     //Firebase Storage prefix

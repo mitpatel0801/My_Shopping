@@ -128,4 +128,6 @@
     <dimen name="cart_quantity_textSize">14sp</dimen>
     <dimen name="ib_add_cart_item_marginStart">5dp</dimen>
     <dimen name="ib_add_cart_item_marginEnd">16dp</dimen>
+
+
 </resources>
