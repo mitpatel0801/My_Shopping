@@ -1,5 +1,6 @@
 package com.myshopping.ui.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,13 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.myshopping.R
+import com.myshopping.firestore.FirestoreClass
 import com.myshopping.models.Address
 import com.myshopping.ui.activities.AddEditAddressActivity
+import com.myshopping.ui.activities.CheckoutActivity
 import com.myshopping.utils.Constants
 import com.myshopping.utils.customWidgets.MSPTextView
 import com.myshopping.utils.customWidgets.MSPTextViewBold
 
-class AddressListAdapter(private val mContext: Context, private val list: List<Address>) :
+class AddressListAdapter(
+    private val mContext: Context,
+    private val list: List<Address>,
+    private val isAddressSelected: Boolean
+) :
     RecyclerView.Adapter<AddressListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +35,7 @@ class AddressListAdapter(private val mContext: Context, private val list: List<A
 
     override fun getItemCount(): Int = list.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val fullName = itemView.findViewById<MSPTextViewBold>(R.id.tv_address_full_name)
         private val addressDetails = itemView.findViewById<MSPTextView>(R.id.tv_address_details)
         private val phoneNumber = itemView.findViewById<MSPTextView>(R.id.tv_address_mobile_number)
@@ -39,13 +46,26 @@ class AddressListAdapter(private val mContext: Context, private val list: List<A
             addressDetails.text = address.address
             phoneNumber.text = address.mobileNumber
             addressType.text = address.type
+
+            if (isAddressSelected) {
+                itemView.setOnClickListener {
+                    val intent = Intent(mContext, CheckoutActivity::class.java)
+                    intent.putExtra(Constants.EXTRA_SELECT_ADDRESS, address)
+                    mContext.startActivity(intent)
+                }
+            }
         }
     }
 
-    fun editItem(adapterPosition: Int) {
+    fun editItem(activity: Activity, adapterPosition: Int) {
         val intent = Intent(mContext, AddEditAddressActivity::class.java)
         intent.putExtra(Constants.EXTRA_ADDRESS_ID, list[adapterPosition].id)
-        mContext.startActivity(intent)
+        activity.startActivityForResult(intent, Constants.ADD_ADDRESS_SELECT_REQUEST_CODE)
+        notifyItemChanged(adapterPosition)
+    }
+
+    fun deleteItem(adapterPosition: Int) {
+        FirestoreClass().deleteAddress(mContext, list[adapterPosition].id)
     }
 
 }

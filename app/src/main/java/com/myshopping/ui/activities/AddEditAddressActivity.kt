@@ -206,6 +206,7 @@ class AddEditAddressActivity : BaseActivity() {
             getString(R.string.err_your_address_added_successfully),
             Toast.LENGTH_LONG
         ).show()
+        setResult(RESULT_OK)
         finish()
     }
 
@@ -216,6 +217,7 @@ class AddEditAddressActivity : BaseActivity() {
             getString(R.string.err_your_address_edited_successfully),
             Toast.LENGTH_LONG
         ).show()
+        setResult(RESULT_OK)
         finish()
     }
 

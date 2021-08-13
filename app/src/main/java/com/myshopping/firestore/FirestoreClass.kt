@@ -464,4 +464,24 @@ class FirestoreClass {
                 addEditAddressActivity.addressAddFailure(e)
             }
     }
+
+    fun deleteAddress(context: Context, address_id: String) {
+        mFireStore.collection(Constants.ADDRESSES)
+            .document(address_id)
+            .delete()
+            .addOnSuccessListener {
+                when (context) {
+                    is AddressListActivity -> {
+                        context.addressDeletedSuccessfully()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (context) {
+                    is AddressListActivity -> {
+                        context.firebaseFailure(e)
+                    }
+                }
+            }
+    }
 }

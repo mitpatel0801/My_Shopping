@@ -4,7 +4,6 @@ package com.myshopping.utils
 object Constants {
 
 
-
     //Shared Pref
     const val MY_SHOPPING_PREF = "MyShoppingPrefs"
     const val LOGGED_IN_USERNAME = "logged_in_username"
@@ -15,7 +14,8 @@ object Constants {
     const val EXTRA_FRAGMENT_PRODUCTS = "open_from_products_fragment"
     const val EXTRA_USER_ID = "user_id"
     const val EXTRA_ADDRESS_ID = "address_id"
-
+    const val EXTRA_SELECT_ADDRESS = "extra_select_address"
+    const val ADD_ADDRESS_SELECT_REQUEST_CODE = 121
 
     //Permission
     const val READ_STORAGE_PERMISSION_CODE = 2
