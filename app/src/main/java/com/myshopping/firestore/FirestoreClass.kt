@@ -9,10 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.myshopping.models.Address
-import com.myshopping.models.CartItem
-import com.myshopping.models.Product
-import com.myshopping.models.User
+import com.myshopping.models.*
 import com.myshopping.ui.activities.*
 import com.myshopping.ui.fragments.DashboardFragment
 import com.myshopping.ui.fragments.ProductsFragment
@@ -331,6 +328,9 @@ class FirestoreClass {
                     is CartListActivity -> {
                         activity.getCartItemsSuccess(items)
                     }
+                    is CheckoutActivity -> {
+                        activity.getCartItemsSuccessfully(items)
+                    }
                 }
             }
             .addOnFailureListener { e ->
@@ -338,11 +338,14 @@ class FirestoreClass {
                     is CartListActivity -> {
                         activity.addFailureFireStore(e)
                     }
+                    is CheckoutActivity -> {
+                        activity.addFailureFireStore(e)
+                    }
                 }
             }
     }
 
-    fun getProductList(activity: CartListActivity) {
+    fun getProductList(activity: Activity) {
         mFireStore.collection(Constants.PRODUCTS)
             .get()
             .addOnSuccessListener {
@@ -350,10 +353,26 @@ class FirestoreClass {
                 for (document in it.documents) {
                     products.add(document.toObject(Product::class.java)!!)
                 }
-                activity.getAllProductSuccess(products)
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.getAllProductSuccess(products)
+                    }
+                    is CheckoutActivity -> {
+                        activity.getAllProductSuccess(products)
+                    }
+                }
+
             }
             .addOnFailureListener { e ->
-                activity.addFailureFireStore(e)
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.addFailureFireStore(e)
+                    }
+                    is CheckoutActivity -> {
+                        activity.addFailureFireStore(e)
+                    }
+                }
+
             }
 
     }
@@ -484,4 +503,21 @@ class FirestoreClass {
                 }
             }
     }
+
+    fun placeOrder(checkoutActivity: CheckoutActivity, order: Order) {
+        val newOrder = mFireStore.collection(Constants.ORDERS)
+            .document()
+        order.id = newOrder.id
+
+        newOrder.set(order)
+            .addOnSuccessListener {
+                checkoutActivity.orderPlacedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                checkoutActivity.addFailureFireStore(e)
+            }
+
+    }
+
+
 }

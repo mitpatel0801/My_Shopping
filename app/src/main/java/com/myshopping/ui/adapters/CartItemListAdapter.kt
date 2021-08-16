@@ -16,8 +16,13 @@ import com.myshopping.utils.Constants
 import com.myshopping.utils.GlideLoader
 import com.myshopping.utils.customWidgets.MSPTextView
 import com.myshopping.utils.customWidgets.MSPTextViewBold
+import kotlinx.android.synthetic.main.item_cart_layout.view.*
 
-class CartItemListAdapter(private val context: Context, private val list: List<CartItem>) :
+class CartItemListAdapter(
+    private val context: Context,
+    private val list: List<CartItem>,
+    private val updateCartItem: Boolean
+) :
     RecyclerView.Adapter<CartItemListAdapter.ViewHolder>() {
 
 
@@ -42,15 +47,28 @@ class CartItemListAdapter(private val context: Context, private val list: List<C
                 deleteItem(cartItem.id)
             }
 
-            if (cartItem.stock_quantity.toInt() == 0) {
+            if (cartItem.stock_quantity == "0") {
+                if (updateCartItem) {
+                    itemView.ib_delete_cart_item.visibility = View.VISIBLE
+                } else {
+                    itemView.ib_delete_cart_item.visibility = View.GONE
+                }
                 addButton.visibility = View.GONE
                 removeButton.visibility = View.GONE
                 quantity.text = context.getString(R.string.lbl_out_of_stock)
                 quantity.setTextColor(ContextCompat.getColor(context, R.color.colorSnackBarError))
 
             } else {
-                addButton.visibility = View.VISIBLE
-                removeButton.visibility = View.VISIBLE
+                if (updateCartItem) {
+                    itemView.ib_delete_cart_item.visibility = View.VISIBLE
+                    addButton.visibility = View.VISIBLE
+                    removeButton.visibility = View.VISIBLE
+                } else {
+                    itemView.ib_delete_cart_item.visibility = View.GONE
+                    addButton.visibility = View.GONE
+                    removeButton.visibility = View.GONE
+                }
+
                 quantity.setTextColor(ContextCompat.getColor(context, R.color.colorSecondaryText))
             }
 
